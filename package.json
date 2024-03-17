@@ -4,8 +4,12 @@
   "description": "Node.js Global Mentoring Program [2024 Q1-Q2 GUKKA, BY]",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "task1": "nodemon task1.mjs",
+    "task2": "nodemon task2.mjs",
+    "task3": "nodemon task3.js"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ValeryKrukovich/node-2024.git"
@@ -18,5 +22,9 @@
   "homepage": "https://github.com/ValeryKrukovich/node-2024#readme",
   "devDependencies": {
     "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10",
+    "node-fetch": "^3.3.2"
   }
 }
