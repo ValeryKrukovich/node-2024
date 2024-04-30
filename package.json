@@ -4,13 +4,8 @@
   "description": "Node.js Global Mentoring Program [2024 Q1-Q2 GUKKA, BY]",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/pm2 start server.js --name ngmp-network-app",
-    "stop": "./node_modules/.bin/pm2 stop ngmp-network-app",
-    "task1": "nodemon task1.mjs",
-    "task2": "nodemon task2.mjs",
-    "task3": "nodemon task3.js",
-    "test": "jest",
-    "test:coverage": "jest --coverage"
+    "start": "node app.js",
+    "stop": "echo 'Server stopped'"
   },
   "repository": {
     "type": "git",
@@ -38,6 +33,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "csvtojson": "^2.0.10",
+    "express": "^4.19.2",
+    "joi": "^17.13.0",
     "node-fetch": "^3.3.2"
   }
 }
