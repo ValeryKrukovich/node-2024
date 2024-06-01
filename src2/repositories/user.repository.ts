@@ -1,20 +1,13 @@
 import { User } from '../models/user.model';
 
 class UserRepository {
-  private static users: User[] = [];
-
-  static getAllUsers(): User[] {
-    return this.users;
+  static async getAllUsers() {
+    return User.find();
   }
 
-  static createUser(name: string, email: string): User {
-    const newUser: User = {
-      id: this.generateUserId(),
-      name,
-      email,
-    };
-    this.users.push(newUser);
-    return newUser;
+  static async createUser(name: string, email: string) {
+    const user = new User({ id: this.generateUserId(), name, email });
+    return user.save();
   }
 
   private static generateUserId(): string {

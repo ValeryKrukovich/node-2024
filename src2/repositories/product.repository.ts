@@ -1,20 +1,13 @@
 import { Product } from '../models/product.model';
 
 class ProductRepository {
-  private static products: Product[] = [];
-
-  static getAllProducts(): Product[] {
-    return this.products;
+  static async getAllProducts() {
+    return Product.find();
   }
 
-  static createProduct(name: string, price: number): Product {
-    const newProduct: Product = {
-      id: this.generateProductId(),
-      name,
-      price,
-    };
-    this.products.push(newProduct);
-    return newProduct;
+  static async createProduct(name: string, price: number) {
+    const product = new Product({ id: this.generateProductId(), name, price });
+    return product.save();
   }
 
   private static generateProductId(): string {

@@ -1,37 +1,21 @@
 import { Cart } from '../models/cart.model';
 
 class CartRepository {
-  private static carts: Cart[] = [];
-
-  static getCartByUserId(userId: string): Cart | undefined {
-    return this.carts.find(cart => cart.userId === userId && !cart.deleted);
+  static async getCartByUserId(userId: string) {
+    return Cart.findOne({ userId, deleted: false });
   }
 
-  static createCart(userId: string): Cart {
-    const newCart: Cart = {
-      id: this.generateCartId(),
-      userId,
-      products: [],
-      deleted: false,
-    };
-    this.carts.push(newCart);
-    return newCart;
+  static async createCart(userId: string) {
+    const cart = new Cart({ id: this.generateCartId(), userId, products: [] });
+    return cart.save();
   }
 
-  static updateCart(cartId: string, updatedCart: Cart): Cart | undefined {
-    const index = this.carts.findIndex(cart => cart.id === cartId && !cart.deleted);
-    if (index !== -1) {
-      this.carts[index] = updatedCart;
-      return updatedCart;
-    }
-    return undefined;
+  static async updateCart(cartId: string, updatedCart: any) {
+    return Cart.findByIdAndUpdate(cartId, updatedCart, { new: true });
   }
 
-  static deleteCart(cartId: string): void {
-    const index = this.carts.findIndex(cart => cart.id === cartId && !cart.deleted);
-    if (index !== -1) {
-      this.carts[index].deleted = true;
-    }
+  static async deleteCart(cartId: string) {
+    return Cart.findByIdAndUpdate(cartId, { deleted: true });
   }
 
   private static generateCartId(): string {

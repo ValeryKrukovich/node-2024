@@ -1,20 +1,13 @@
 import { Order } from '../models/order.model';
 
 class OrderRepository {
-  private static orders: Order[] = [];
-
-  static getAllOrdersByUserId(userId: string): Order[] {
-    return this.orders.filter(order => order.userId === userId);
+  static async getAllOrdersByUserId(userId: string) {
+    return Order.find({ userId });
   }
 
-  static createOrder(userId: string, products: string[]): Order {
-    const newOrder: Order = {
-      id: this.generateOrderId(),
-      userId,
-      products,
-    };
-    this.orders.push(newOrder);
-    return newOrder;
+  static async createOrder(userId: string, products: any) {
+    const order = new Order({ id: this.generateOrderId(), userId, products });
+    return order.save();
   }
 
   private static generateOrderId(): string {
@@ -24,3 +17,4 @@ class OrderRepository {
 }
 
 export default OrderRepository;
+
