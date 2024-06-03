@@ -1,15 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
+import AuthService from '../services/auth.service';
 
 const authenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const userId = req.header('x-user-id');
-  if (!userId) {
-    return res.status(401).json({ error: 'Unauthorized: Missing user ID' });
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized' });
   }
-  // Hardcoded check for admin user
-  if (userId !== 'admin') {
-    return res.status(403).json({ error: 'Forbidden: User not authorized' });
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = AuthService.verifyToken(token);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ error: 'Unauthorized' });
   }
-  next();
 };
 
 export default authenticationMiddleware;

@@ -13,13 +13,13 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-app.use(authenticationMiddleware);
 
 // Routes
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/carts', cartRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', authenticationMiddleware, userRoutes);
+app.use('/api/products', authenticationMiddleware, productRoutes);
+app.use('/api/carts', authenticationMiddleware, cartRoutes);
+app.use('/api/orders', authenticationMiddleware, orderRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
