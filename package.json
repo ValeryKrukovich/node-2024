@@ -4,8 +4,10 @@
   "description": "Node.js Global Mentoring Program [2024 Q1-Q2 GUKKA, BY]",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "stop": "echo 'Server stopped'"
+    "start": "NODE_ENV=production node dist/app.js",
+    "start:dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "test": "NODE_ENV=test mocha --require ts-node/register 'src/**/*.test.ts'"
   },
   "repository": {
     "type": "git",
@@ -35,10 +37,13 @@
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "csvtojson": "^2.0.10",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-winston": "^4.2.0",
     "joi": "^17.13.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "winston": "^3.13.0"
   }
 }
