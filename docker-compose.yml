@@ -1,11 +1,44 @@
-version: '3'
+# version: '3'
+# services:
+#   mongo:
+#     image: "mongo"
+#     container_name: "nodegmp-nosql"
+#     restart: always
+#     environment:
+#       - MONGO_INITDB_ROOT_USERNAME=root
+#       - MONGO_INITDB_ROOT_PASSWORD=nodegmp
+#     ports:
+#       - '27017:27017'
+
+version: '3.8'
+
 services:
-  mongo:
-    image: "mongo"
-    container_name: "nodegmp-nosql"
-    restart: always
+  db:
+    image: postgres:latest
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=nodegmp
+      POSTGRES_DB: shop
+      POSTGRES_USER: shop_user
+      POSTGRES_PASSWORD: shop_password
+    volumes:
+      - db-data:/var/lib/postgresql/data
     ports:
-      - '27017:27017'
+      - "5432:5432"
+
+  app:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: shop_user
+      DB_PASSWORD: shop_password
+      DB_NAME: shop
+      JWT_SECRET: your_jwt_secret
+      NODE_ENV: production
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  db-data:
+  

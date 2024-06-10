@@ -8,7 +8,9 @@ import productRoutes from './routes/product.routes';
 import cartRoutes from './routes/cart.routes';
 import orderRoutes from './routes/order.routes';
 import authenticationMiddleware from './middleware/uthentication.middleware';
-import connectDB from './database';
+// import connectDB from './database';
+import { createConnection } from 'typeorm';
+import config from './ormconfig'
 
 dotenv.config();
 
@@ -17,11 +19,18 @@ const app = express();
 // Connect to MongoDB
 // connectDB();
 
-const MONGO_URI = process.env.MONGO_URI;
+// const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => logger.info('Connected to MongoDB'))
-  .catch(err => logger.error(`Could not connect to MongoDB: ${err.message}`));
+// mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => logger.info('Connected to MongoDB'))
+//   .catch(err => logger.error(`Could not connect to MongoDB: ${err.message}`));
+// ;
+
+createConnection(config).then(() => {
+  logger.info('Connected to PostgreSQL database');
+}).catch(error => {
+  logger.error('Could not connect to the database:', error);
+});
 
 // Middleware
 app.use(express.json());
